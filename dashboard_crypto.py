@@ -1,3 +1,4 @@
+# Feito por: @eros.black2006
 import dash
 from dash import dcc, html
 from dash.dependencies import Input, Output
@@ -138,3 +139,4 @@ def atualizar_grafico(moeda_id):
 
 if __name__ == '__main__':
     app.run(debug=True)
+# está em fase de teste, e está na versão 1.7.0
