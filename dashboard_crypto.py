@@ -37,17 +37,22 @@ app.layout = html.Div([
     html.Div(id='tabela-dados'),
 
     html.H2('📈 Gráfico de Preços', style={'marginTop': '40px', 'textAlign': 'center', 'color': 'white'}),
-    dcc.Dropdown(
-        id='dropdown-moeda',
-        options=[{'label': crypto_names[c], 'value': c} for c in crypto_ids],
-        value='bitcoin',
-        style={
-            'width': '50%',
-            'margin': 'auto',
-            'backgroundColor': '#222',
-            'color': 'white'
-        }
-    ),
+   dcc.Dropdown(
+    id='dropdown-moeda',
+    options=[{'label': crypto_names[c], 'value': c} for c in crypto_ids],
+    value='bitcoin',
+    style={
+        'width': '50%',
+        'margin': 'auto',
+        'backgroundColor': '#000',
+        'color': 'Blue',
+        'border': '1px solid #555'
+    },
+    placeholder='Selecione uma moeda',
+    searchable=False,
+    clearable=False
+),
+
     dcc.Graph(id='grafico-preco')
 ], style={'fontFamily': 'Arial', 'padding': '30px', 'backgroundColor': '#111'})
 
@@ -119,7 +124,13 @@ def atualizar_grafico(moeda_id):
         xaxis_title='Data',
         yaxis_title='Preço (USD)',
         template='plotly_dark',
-        height=500
+        height=500,
+        font=dict(color='white'),
+        paper_bgcolor='#111',     # Fundo fora do gráfico
+        plot_bgcolor='#111',      # Fundo do gráfico
+        xaxis=dict(color='white'),
+        yaxis=dict(color='white'),
+        title_font=dict(color='white')
     )
 
     return fig
@@ -127,4 +138,3 @@ def atualizar_grafico(moeda_id):
 
 if __name__ == '__main__':
     app.run(debug=True)
-
