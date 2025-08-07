@@ -29,22 +29,27 @@ def get_crypto_data():
     data = response.json()
     return pd.DataFrame(data)
 
-# Layout do Dashboard
+# Layout do Dashboard com tema escuro
 app.layout = html.Div([
-    html.H1('Análises de Criptomoedas', style={'textAlign': 'center'}),
+    html.H1('📊 Análises de Criptomoedas', style={'textAlign': 'center', 'color': 'white'}),
     dcc.Interval(id='interval-atualizacao', interval=60*1000, n_intervals=0),  # Atualiza a cada 60 segundos
 
     html.Div(id='tabela-dados'),
 
-    html.H2('📈 Gráfico de Preços', style={'marginTop': '40px'}),
+    html.H2('📈 Gráfico de Preços', style={'marginTop': '40px', 'textAlign': 'center', 'color': 'white'}),
     dcc.Dropdown(
         id='dropdown-moeda',
         options=[{'label': crypto_names[c], 'value': c} for c in crypto_ids],
         value='bitcoin',
-        style={'width': '50%', 'margin': 'auto'}
+        style={
+            'width': '50%',
+            'margin': 'auto',
+            'backgroundColor': '#222',
+            'color': 'white'
+        }
     ),
     dcc.Graph(id='grafico-preco')
-], style={'fontFamily': 'Arial', 'padding': '30px'})
+], style={'fontFamily': 'Arial', 'padding': '30px', 'backgroundColor': '#111'})
 
 
 @app.callback(
@@ -65,7 +70,7 @@ def atualizar_tabela(n):
 
     table_rows = []
     for _, row in df.iterrows():
-        cor = 'green' if row['price_change_percentage_24h'] >= 0 else 'red'
+        cor = 'limegreen' if row['price_change_percentage_24h'] >= 0 else 'tomato'
         table_rows.append(html.Tr([
             html.Td(crypto_names.get(row['id'], row['id'])),
             html.Td(f"${row['current_price']:,}"),
@@ -74,7 +79,18 @@ def atualizar_tabela(n):
             html.Td(f"${row['market_cap']:,}")
         ]))
 
-    return html.Table(table_header + table_rows, style={'width': '100%', 'borderCollapse': 'collapse'})
+    return html.Table(
+        table_header + table_rows,
+        style={
+            'width': '100%',
+            'borderCollapse': 'collapse',
+            'color': 'white',
+            'backgroundColor': '#222',
+            'border': '1px solid #333',
+            'textAlign': 'center',
+            'marginTop': '20px'
+        }
+    )
 
 
 @app.callback(
@@ -111,3 +127,4 @@ def atualizar_grafico(moeda_id):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
